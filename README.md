@@ -1,5 +1,8 @@
 # Visa_Python
 
+reference material:
+https://download.tek.com/manual/MDO4000-MSO4000B-and-DPO4000B-Oscilloscope-Programmer-Manual.pdf
+
 Mix of scripts found online to help show how to talk to a tektronix oscilloscopes
 using the pyvisa (VISA) library/SCPI command protocol
 
