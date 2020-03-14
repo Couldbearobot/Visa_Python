@@ -12,7 +12,6 @@ t_then = 0
 t_now = 0
 diff = 0
 t_total = 0
-print(t_total)
 
 s = sched.scheduler(time.time, time.sleep)
 
@@ -24,18 +23,21 @@ def print_time():
     diff = t_now - t_then
     
     if diff != t_now:
-        print ("Diff = ", t_now - t_then)
+        #print ("Diff = ", t_now - t_then)
         t_total += round_to_1(diff)
     t_then = t_now
-    print('\n')
+    #print('\n')
 
 count = 0
 
+
 while count <= 5:
-    s.enter(2, 1, print_time, ())
+    # https://docs.python.org/2/library/sched.html
+    #scheduler.enter(delay, priority, action, argument)
+    s.enter(1, 1, print_time, ())
     s.run()
     print("Total Time: ", t_total)
-    print("Time Printed")
+    #print("Time Printed")
     count = count + 1
 
 print("Completed")
