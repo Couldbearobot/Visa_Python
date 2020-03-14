@@ -20,6 +20,10 @@ print(tekMDO.query('*IDN?'))
 #RF_MAXHold|RF_MINHold}
 tekMDO.write('DATA:SOU CH1')
 
+#Transfer 500 data points
+tekMDO.write('DATA:START 1')
+tekMDO.write('DATA:STOP 500')
+
 #SSM: 253
 #Specifies width: bytes per point, for a waveform data when using CURve?
 tekMDO.write('DATA:WIDTH 1')
