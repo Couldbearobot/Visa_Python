@@ -1,10 +1,14 @@
 #pull in main library
+#from record waveform example
 import pyvisa
 import numpy as np
 from struct import unpack
 import pylab
+#from timer example
 import sched, time
-
+from math import log10, floor
+def round_to_1(x):
+    return round(x, -int(floor(log10(abs(x)))))
 
 rm = pyvisa.ResourceManager()
 
@@ -42,7 +46,39 @@ def recordWave (strt, fnsh):
     Time = np.arange(0, xincr * len(Volts), xincr)
     return;
 
+#from Timer example
 #generate timestamp for beginning reading
+t_then = 0
+t_now = 0
+diff = 0
+t_total = 0
+
+s = sched.scheduler(time.time, time.sleep)
+
+def print_time():
+    global t_now, t_then, diff, t_total
+    t_now = time.time()
+    #print ("From t_now", t_now)
+    #print ("From t_then" , t_then)
+    diff = t_now - t_then
+    
+    if diff != t_now:
+        #print ("Diff = ", t_now - t_then)
+        t_total += round_to_1(diff)
+    t_then = t_now
+    print('\n')
+
+count = 0
+
+while count <= 5:
+    s.enter(2, 1, print_time, ())
+    s.run()
+    print("Total Time: ", t_total)
+    print("Time Printed")
+    count = count + 1
+
+print("Completed")
+
 #call recordWave(1,500)
 #store recording in text file
 #plot and show if reading == 1 ? maybe?

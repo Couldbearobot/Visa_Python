@@ -15,6 +15,8 @@ t_total = 0
 
 s = sched.scheduler(time.time, time.sleep)
 
+#function call to print time per event,
+#provide example of how to call object on time basis(per second)
 def print_time():
     global t_now, t_then, diff, t_total
     t_now = time.time()
@@ -30,7 +32,7 @@ def print_time():
 
 count = 0
 
-
+#Create timer object that calls ever 1 second
 while count <= 5:
     # https://docs.python.org/2/library/sched.html
     #scheduler.enter(delay, priority, action, argument)
