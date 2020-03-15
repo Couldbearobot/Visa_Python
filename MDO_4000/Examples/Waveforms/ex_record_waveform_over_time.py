@@ -23,6 +23,7 @@ Time = 0
 
 #Function to call for recording waveform of expanding size
 def recordWave (strt, fnsh):
+    global Volts, Time
     tekMDO.write('DATA:SOU CH1')
     #Transfer 500 data points
     tekMDO.write('DATA:START ' + str(strt))
@@ -44,7 +45,6 @@ def recordWave (strt, fnsh):
     ADC_wave = np.array(unpack('%sB' % len(ADC_wave), ADC_wave))
     Volts = (ADC_wave - yoff) * ymult + yzero
     Time = np.arange(0, xincr * len(Volts), xincr)
-    return;
 
 #from Timer example
 #generate timestamp for beginning reading
@@ -69,18 +69,27 @@ def print_time():
     print('\n')
 
 count = 0
+name = "Waveform_"
 
-while count <= 5:
+while count < 5:
     s.enter(2, 1, print_time, ())
     s.run()
-    print("Total Time: ", t_total)
-    print("Time Printed")
+    #call recordWave(1,2000)
+    recordWave(1,2000)
+    temp_name = name + "[" + str(count) + "].txt";
+    file = open(temp_name, 'w')
+    #print(len(Time))
+    for x in range(1, len(Time)):
+        file.write("{0:2f} {1:3f} \n". format(Time[x], Volts[x]))
+    file.close()
+    #print(temp_name)
+    #store recording in text file
     count = count + 1
 
 print("Completed")
 
-#call recordWave(1,500)
-#store recording in text file
+
+
 #plot and show if reading == 1 ? maybe?
 
 
@@ -93,7 +102,13 @@ print("Completed")
 #pylab.xlabel('X Label')
 #pylab.ylabel('Y Label')
 #pylab.title('Title')
-
+#print("Total Time: ", t_total)
+#pylab.plot(Time, Volts)
+#pylab.title('BK Precision 4055 Sinewave')
+#pylab.xlabel('Time[s]')
+#pylab.ylabel('Volts[V]')
+#pylab.show()
+#print("Graph Printed")
 
 
     

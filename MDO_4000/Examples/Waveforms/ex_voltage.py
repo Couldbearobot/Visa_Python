@@ -22,7 +22,7 @@ tekMDO.write('DATA:SOU CH1')
 
 #Transfer 500 data points
 tekMDO.write('DATA:START 1')
-tekMDO.write('DATA:STOP 500')
+tekMDO.write('DATA:STOP 10000')
 
 #SSM: 253
 #Specifies width: bytes per point, for a waveform data when using CURve?
@@ -50,7 +50,11 @@ Volts = (ADC_wave - yoff) * ymult + yzero
 Time = np.arange(0, xincr * len(Volts), xincr)
 
 pylab.plot(Time, Volts)
+pylab.title('BK Precision 4055 Sinewave')
+pylab.xlabel('Time[s]')
+pylab.ylabel('Volts[V]')
 pylab.show()
+
 
 print('Done')
 
