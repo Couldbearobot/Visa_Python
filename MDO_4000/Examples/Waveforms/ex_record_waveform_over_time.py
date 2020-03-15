@@ -13,6 +13,7 @@ def round_to_1(x):
 rm = pyvisa.ResourceManager()
 
 tekMDO = rm.open_resource('TCPIP::192.168.1.177::INSTR')
+#tekMDO.timeout = 30
 
 #execute to show connection has been made
 print(tekMDO.query('*IDN?'))
@@ -38,6 +39,7 @@ def recordWave (strt, fnsh):
     xincr = float(tekMDO.query('WFMPRE:XINCR?'))
 
     tekMDO.write('CURVE?')
+    
     data = tekMDO.read_raw()
     headerlen = 2 + int(data[1])
     header = data[:headerlen]
@@ -71,8 +73,8 @@ def print_time():
 count = 0
 name = "Waveform_"
 
-while count < 5:
-    s.enter(2, 1, print_time, ())
+while count < 6:
+    s.enter(1, 1, print_time, ())
     s.run()
     #call recordWave(1,2000)
     recordWave(1,2000)
@@ -86,6 +88,11 @@ while count < 5:
     #store recording in text file
     count = count + 1
 
+#Current issue-
+#if testing in python goes on too long eventual connection error with Tek scope
+#happens, going this clear() function on pyvisa website
+#want to test and see if this solves error
+tekMDO.clear()
 print("Completed")
 
 
@@ -102,13 +109,13 @@ print("Completed")
 #pylab.xlabel('X Label')
 #pylab.ylabel('Y Label')
 #pylab.title('Title')
-#print("Total Time: ", t_total)
-#pylab.plot(Time, Volts)
-#pylab.title('BK Precision 4055 Sinewave')
-#pylab.xlabel('Time[s]')
-#pylab.ylabel('Volts[V]')
-#pylab.show()
-#print("Graph Printed")
+print("Total Time: " + str(t_total) + " seconds")
+pylab.plot(Time, Volts)
+pylab.title('BK Precision 4055 Sinewave')
+pylab.xlabel('Time[s]')
+pylab.ylabel('Volts[V]')
+pylab.show()
+print("Graph Printed")
 
 
     
